@@ -68,12 +68,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 #main-nav.scrolled { box-shadow: 0 2px 24px rgba(26,47,110,0.12); }
 .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; gap: 32px; }
-.nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.logo-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); background: var(--navy); color: var(--white); font-size: 18px; font-weight: 800; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.logo-icon::after { content: ''; position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
-.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
-.logo-name { font-size: 16px; font-weight: 800; color: var(--navy); letter-spacing: 0.5px; }
-.logo-sub { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; }
+.site-logo { max-height: 46px; width: auto; display: block; }
 .nav-links { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; }
 .nav-links li a { font-size: 14px; font-weight: 500; color: var(--text-mid); padding: 6px 14px; border-radius: var(--radius-sm); transition: all 0.25s var(--ease); }
 .nav-links li a:hover, .nav-links li a.active { color: var(--navy); background: var(--bg-light); }
@@ -366,10 +362,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-footer { background: var(--navy-deep); color: rgba(255,255,255,0.75); padding: 70px 0 0; }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 40px; padding-bottom: 56px; border-bottom: 1px solid rgba(255,255,255,0.10); }
 .footer-brand { display: flex; flex-direction: column; gap: 16px; }
-.footer-logo { display: flex; align-items: center; gap: 10px; }
-.footer-logo-icon { width: 36px; height: 36px; background: var(--navy); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--white); }
-.footer-logo-name { display: block; font-size: 16px; font-weight: 800; color: var(--white); }
-.footer-logo-sub { display: block; font-size: 11px; color: rgba(255,255,255,0.5); }
+.footer-logo { display: flex; align-items: center; }
+.site-logo-footer { max-height: 54px; width: auto; display: block; }
 .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.7); font-style: italic; }
 .footer-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
 .footer-socials { display: flex; gap: 10px; }
