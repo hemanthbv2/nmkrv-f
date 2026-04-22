@@ -45,17 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── SCROLL REVEAL ───
   const revealEls = document.querySelectorAll([
-    '.prog-card', '.journey-item', '.club-card',
+    '.prog-card', '.club-card',
     '.campus-stat-item', '.campus-photo-item', '.campus-photo-tall',
-    '.section-header', '.journey-content-col', '.journey-image-col',
+    '.section-header', '.app-left', '.app-right',
     '.campus-life-left', '.campus-life-right',
-    '.admissions-cta-card', '.testimonial-carousel'
+    '.teachers-section'
   ].join(', '));
 
   revealEls.forEach(el => el.classList.add('reveal'));
 
   // Stagger delays within grids
-  document.querySelectorAll('.programmes-grid, .journey-items, .campus-stats').forEach(group => {
+  document.querySelectorAll('.programmes-grid, .app-features, .campus-stats').forEach(group => {
     const children = group.querySelectorAll('.reveal');
     children.forEach((child, i) => {
       if (i > 0 && i <= 5) child.classList.add(`reveal-d${i}`);
@@ -128,56 +128,58 @@ document.addEventListener('DOMContentLoaded', () => {
     heroObserver.observe(heroStats);
   }
 
-  // ─── TESTIMONIAL CAROUSEL ───
-  const slides = document.querySelectorAll('.testimonial-slide');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
-  let currentSlide = 0;
-  let autoplayTimer;
+  // ─── TEACHER SPOTLIGHT CAROUSEL ───
+  const tSlides = document.querySelectorAll('.spotlight-slide');
+  const tDots = document.querySelectorAll('#teacher-dots .nav-dot');
+  const tPrevBtn = document.getElementById('teacher-prev');
+  const tNextBtn = document.getElementById('teacher-next');
+  let currentTSlide = 0;
+  let tAutoplayTimer;
 
-  function showSlide(index) {
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
-    slides.forEach(s => s.classList.remove('active'));
-    dots.forEach(d => d.classList.remove('active'));
-    slides[index].classList.add('active');
-    dots[index].classList.add('active');
-    currentSlide = index;
+  function showTSlide(index) {
+    if (!tSlides.length) return;
+    if (index < 0) index = tSlides.length - 1;
+    if (index >= tSlides.length) index = 0;
+    tSlides.forEach(s => s.classList.remove('active'));
+    tDots.forEach(d => d.classList.remove('active'));
+    tSlides[index].classList.add('active');
+    if (tDots[index]) tDots[index].classList.add('active');
+    currentTSlide = index;
   }
 
-  function nextSlide() { showSlide(currentSlide + 1); }
-  function prevSlide() { showSlide(currentSlide - 1); }
+  function nextTSlide() { showTSlide(currentTSlide + 1); }
+  function prevTSlide() { showTSlide(currentTSlide - 1); }
 
-  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
-  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+  if (tNextBtn) tNextBtn.addEventListener('click', () => { nextTSlide(); resetTAutoplay(); });
+  if (tPrevBtn) tPrevBtn.addEventListener('click', () => { prevTSlide(); resetTAutoplay(); });
 
-  dots.forEach(dot => {
+  tDots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      showSlide(parseInt(dot.dataset.slide));
-      resetAutoplay();
+      showTSlide(i);
+      resetTAutoplay();
     });
   });
 
-  function startAutoplay() { autoplayTimer = setInterval(nextSlide, 5000); }
-  function resetAutoplay() { clearInterval(autoplayTimer); startAutoplay(); }
-  if (slides.length > 0) startAutoplay();
+  function startTAutoplay() { tAutoplayTimer = setInterval(nextTSlide, 8000); }
+  function resetTAutoplay() { clearInterval(tAutoplayTimer); startTAutoplay(); }
+  if (tSlides.length > 0) startTAutoplay();
 
   // Swipe support
-  const carouselEl = document.getElementById('testimonial-carousel');
-  if (carouselEl) {
-    let touchStartX = 0;
-    carouselEl.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
+  const tSpotlightEl = document.getElementById('teacher-carousel');
+  if (tSpotlightEl) {
+    let tTouchStartX = 0;
+    tSpotlightEl.addEventListener('touchstart', (e) => {
+      tTouchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
-    carouselEl.addEventListener('touchend', (e) => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
+    tSpotlightEl.addEventListener('touchend', (e) => {
+      const diff = tTouchStartX - e.changedTouches[0].screenX;
       if (Math.abs(diff) > 50) {
-        if (diff > 0) nextSlide(); else prevSlide();
-        resetAutoplay();
+        if (diff > 0) nextTSlide(); else prevTSlide();
+        resetTAutoplay();
       }
     }, { passive: true });
   }
+
 
   // ─── ACTIVE NAV HIGHLIGHT ───
   const sections = document.querySelectorAll('section[id]');
@@ -268,12 +270,19 @@ document.addEventListener('DOMContentLoaded', () => {
     toastTimeout = setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(-50%) translateY(20px)'; }, 3000);
   }
 
-  document.querySelectorAll('#nav-brochure-btn, #mob-brochure, #cta-brochure-btn').forEach(btn => {
+  document.querySelectorAll('#nav-brochure-btn, #mob-brochure, #app-brochure-btn').forEach(btn => {
     btn.addEventListener('click', (e) => { e.preventDefault(); showToast('📄 Brochure download will be available soon!'); });
   });
-  document.querySelectorAll('#nav-apply-btn, #mob-apply, #cta-apply-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => { e.preventDefault(); showToast('🎓 Application portal opening soon!'); });
-  });
+
+  const appForm = document.getElementById('application-form');
+  if(appForm) {
+    appForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('✅ Application submitted successfully!');
+      appForm.reset();
+    });
+  }
+
   document.querySelectorAll('.prog-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
